@@ -2,7 +2,6 @@ File Sharing Website
 A modern file-sharing platform built with the MERN stack (MongoDB, Express, React, Node.js). Users can upload, download, and manage files securely.
 
 File Sharing Website Demo
-(Replace with a screenshot or GIF of your application)
 
 Features
 File Upload: Drag and drop or click to upload files.
@@ -39,8 +38,8 @@ Clone the repository
 
 bash
 Copy
-git clone https://github.com/your-username/file-sharing-website.git
-cd file-sharing-website
+git clone https://github.com/your-username/file_sharing.git
+cd file_sharing
 Set up the backend
 
 bash
