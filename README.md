@@ -4,6 +4,12 @@ A modern file-sharing platform built with the MERN stack (MongoDB, Express, Reac
 File Sharing Website Demo
 
 Features
+User Authentication: Register, login, and manage files securely.
+
+File Ownership: Each file is linked to the user who uploaded it.
+
+User Dashboard: View and manage uploaded files.
+
 File Upload: Drag and drop or click to upload files.
 
 File Download: Download files with a single click.
