@@ -31,66 +31,8 @@ Storage: MongoDB GridFS (for small-medium files)
 
 Deployment: Vercel (Frontend), Render/Heroku (Backend), MongoDB Atlas (Database)
 
-Installation
-Prerequisites
-Node.js (v16 or higher)
-
-MongoDB (local or MongoDB Atlas)
-
-Git
-
-Steps
-Clone the repository
-
-bash
-Copy
-git clone https://github.com/your-username/file_sharing.git
-cd file_sharing
-Set up the backend
-
-bash
-Copy
-cd backend
-npm install
-Set up the frontend
-
-bash
-Copy
-cd ../frontend
-npm install
-Configure environment variables
-
-Create a .env file in the backend directory:
-
-env
-Copy
-MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/dbname
-PORT=5000
-Replace <username>, <password>, and dbname with your MongoDB credentials.
-
-Run the backend
-
-bash
-Copy
-cd ../backend
-npm start
-Run the frontend
-
-bash
-Copy
-cd ../frontend
-npm run dev
-Access the application
-
-Open your browser and navigate to http://localhost:5173.
-
-API Endpoints
-Method	Endpoint	Description
-POST	/api/files/upload	Upload a file
-GET	/api/files	Get a list of uploaded files
-GET	/api/files/:id	Download a specific file
 Folder Structure
-Copy
+
 file-sharing-website/
 ├── backend/
 │   ├── config/            # Database and middleware configuration
@@ -108,18 +50,6 @@ file-sharing-website/
 │   │   └── main.jsx       # Entry point for the frontend
 │   └── vite.config.js     # Vite configuration
 └── README.md              # Project documentation
-Contributing
-Contributions are welcome! Follow these steps:
-
-Fork the repository.
-
-Create a new branch (git checkout -b feature/YourFeatureName).
-
-Commit your changes (git commit -m 'Add some feature').
-
-Push to the branch (git push origin feature/YourFeatureName).
-
-Open a pull request.
 
 License
 This project is licensed under the MIT License. See the LICENSE file for details.
