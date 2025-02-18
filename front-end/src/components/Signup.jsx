@@ -1,8 +1,8 @@
 import React from 'react'
-import logo from '../assests/Vector.svg'
-import picture from '../assets/uploadvector.svg'
-import google from '../assets/google.svg'
-import github from '../assests/github.svg'
+import logo from '../assets/logo.svg';
+import picture from '../assets/uploadvector.svg';
+import google from '../assets/google.svg';
+import github from '../assets/github.svg';
 
 
 
