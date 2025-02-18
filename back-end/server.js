@@ -1,9 +1,13 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import Grid from "gridfs-stream";
+import { GridFSBucket } from 'mongodb';
 import cors from 'cors';
 import dotenv from 'dotenv';
 
 import authRoutes from './routes/authRoutes.js';
+import fileRoutes from './routes/fileRoutes.js';
+
 
 dotenv.config(); // Load .env variables
 
@@ -20,8 +24,20 @@ mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://filesharing:sharingfi
 }).then(() => console.log('MongoDB connected'))
   .catch(err => console.error('MongoDB connection error:', err));
 
+const conn = mongoose.connection;
+let gfs;
+
+conn.once("open", () => {
+  gfs = new GridFSBucket(conn.db, {
+    bucketName: "uploads",
+  });
+});
+
+export  {gfs, conn}; 
+
 // Routes
 app.use('/auth', authRoutes);
+app.use('/files', fileRoutes); 
 
 // Start server
 const PORT = process.env.PORT || 5000;
