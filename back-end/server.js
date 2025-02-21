@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import Grid from "gridfs-stream";
+import multer from 'multer';
+import { GridFsStorage } from 'multer-gridfs-storage';
 import { GridFSBucket } from 'mongodb';
 import cors from 'cors';
 import dotenv from 'dotenv';
@@ -33,7 +35,22 @@ conn.once("open", () => {
   });
 });
 
-export  {gfs, conn}; 
+
+
+
+const storage = new GridFsStorage({
+  url: process.env.MONGODB_URI || 'mongodb+srv://filesharing:sharingfileX546234@filesharing0.k0w9x.mongodb.net/file_sharing',
+  file: (req, file) => {
+    return {
+      filename: `profile_${Date.now()}_${file.originalname}`,
+      bucketName: 'uploads', // This should match your GridFS bucket
+    };
+  },
+});
+
+const upload = multer({ storage });
+
+export { gfs, conn, upload };
 
 // Routes
 app.use('/auth', authRoutes);
