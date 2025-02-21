@@ -5,11 +5,91 @@ import vector from '../assets/uploadvector.svg';
 import picture from '../assets/uploadvector.svg';
 import google from '../assets/google.svg';
 import github from '../assets/github.svg';
-import { useState,useEffect } from 'react';
+import { useState,useEffect ,useMemo} from 'react';
 import axios from 'axios';
+import { IoMdAdd } from "react-icons/io";
 import { useAuth } from '../AuthContext';
 
 import {useNavigate} from 'react-router-dom'
+
+//here we have the dropzone to upload profile picture
+import { useDropzone } from 'react-dropzone';
+
+
+
+
+const baseStyle = {
+  flex: 1,
+  display: 'flex',
+
+  alignItems: 'center',
+
+  
+
+
+  backgroundColor: 'transparent',
+  color: '#bdbdbd',
+  outline: 'none',
+  transition: 'border .24s ease-in-out',
+  width: '327px',
+  height: '60px',
+};
+
+const focusedStyle = {
+  borderColor: '#2196f3'
+};
+
+const acceptStyle = {
+  borderColor: '#00e676'
+};
+
+const rejectStyle = {
+  borderColor: '#ff1744'
+};
+
+function StyledDropzone(props) {
+  const [fileName, setFileName] = useState(null);
+  const {
+    getRootProps,
+    getInputProps,
+    isFocused,
+    isDragAccept,
+    isDragReject
+  } = useDropzone({
+    // multiple: true,
+    accept: { 'image/*': [] },
+    onDrop: (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        setFileName(acceptedFiles[0].name); // Store the selected file name
+        props.setProfilePicture(acceptedFiles[0]);  // Store file in state
+      }
+    }
+  });
+
+  const style = useMemo(() => ({
+    ...baseStyle,
+    ...(isFocused ? focusedStyle : {}),
+    ...(isDragAccept ? acceptStyle : {}),
+    ...(isDragReject ? rejectStyle : {})
+  }), [
+    isFocused,
+    isDragAccept,
+    isDragReject
+  ]);
+
+  return (
+    <div className="container flex justify-between max-lg:w-[300px] border-none inter-regular bg-[#EDDFB5] rounded-tr-[90px] rounded-br-[90px]  w-full h-[60px] ">
+      <div {...getRootProps({ style })}>
+        <input  placeholder='Add Profile picture' {...getInputProps()} className=' rounded-[30px]' />
+        <div className=' flex justify-between items-center flex-row w-full max-lg:w-[300px]  p-[10px]'>
+          <p className='text-[#808080] pl-[14px] capitalize w-[280px] overflow-hidden overflow-ellipsis whitespace-nowrap  ' >{fileName ? fileName : 'Add Profile picture'}</p>
+          <button className=' bg-[#DD5E3F] min-w-[50px] min-h-[50px] rounded-[90px] flex justify-center items-center'><input {...getInputProps()} /><IoMdAdd className=' text-[20px] text-white' /></button>
+          </div>
+      </div>
+    </div>
+  );
+}
+
 
 
 const Signup = () => {
@@ -23,13 +103,17 @@ const Signup = () => {
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    const formData = new FormData();
+    formData.append("username", username);
+    formData.append("password", password);
+    formData.append("profilePicture", profilePicture); 
+
     try {
-      const response = await axios.post("http://localhost:5000/auth/signup", {
-        username,
-        password,
-        profilePicture
-        
-      });
+      const response = await axios.post("http://localhost:5000/auth/signup",formData, {
+            headers: {
+                "Content-Type": "multipart/form-data", // Important for file upload
+            },
+        });
 
       // Save token in localStorage
       localStorage.setItem("token", response.data.token);
@@ -41,7 +125,8 @@ const Signup = () => {
 
       // Update authentication state
       setUsername("");
-      setPassword("");
+        setPassword("");
+        setProfilePicture(null);
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed. Please try again.");
       setMessage("");
@@ -80,6 +165,7 @@ const Signup = () => {
                           Create Account
                           </h1>
                           <form onSubmit={handleSignup} className='flex flex-col items-center justify-center gap-5'>
+                          <StyledDropzone profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
                               <input value={username} onChange={(e)=> setUsername(e.target.value)}
                                   className=' max-lg:w-[300px] border-none inter-regular bg-[#EDDFB5] rounded-md w-[377px] h-[60px]  placeholder:pl-[24px] placeholder:text-left focus:outline-none focus:ring-0 text-center'
                                   type="text"
