@@ -8,6 +8,8 @@ import dotenv from 'dotenv';
 import authRoutes from './routes/authRoutes.js';
 import fileRoutes from './routes/fileRoutes.js';
 
+import userRoutes from './routes/userRoutes.js';
+
 
 dotenv.config(); // Load .env variables
 
@@ -38,6 +40,9 @@ export  {gfs, conn};
 // Routes
 app.use('/auth', authRoutes);
 app.use('/files', fileRoutes); 
+
+
+app.use("/api", userRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

@@ -51,7 +51,7 @@ function StyledDropzone(props) {
     isDragAccept,
     isDragReject
   } = useDropzone({
-    multiple :true,
+    multiple: true,
     accept: { 'image/*': [] },
     onDrop: (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
@@ -92,7 +92,7 @@ function StyledDropzone(props) {
 
 const Home = () => {
 
-  
+
   return (
     <div className=" flex flex-col gap-20 bg-cover bg-center h-screen pt-10" style={{ backgroundImage: `url(${background})` }} >
       {/* <img src={background} alt="background" className="w-full h-full object-cover" /> */}
@@ -113,16 +113,16 @@ const Home = () => {
         </div>
         <div className="w-[387px] h-[462px] bg-[#EDDFB5] rounded-[16px]  ">
           <form action="" className=' flex flex-col gap-[30px] p-[30px]'>
-          <StyledDropzone />
-         <input type="email" name="" id="" placeholder='Your email' className='  w-full outline-none border-b-2 border-[#DD5E3F] pb-[10px]'/>
-         <input type="email" name="" id="" placeholder='Email to' className='  w-full outline-none border-b-2 border-[#DD5E3F] pb-[10px]'/>
-         <input type="text" name="" id="" placeholder='Title' className='  w-full outline-none border-b-2 border-[#DD5E3F] pb-[10px]' />
-         <input type="text" name="" id="" placeholder='Message' className='  w-full outline-none border-b-2 border-[#DD5E3F] pb-[10px]' />
-         <input type="submit" value="Transfer Files"  className=' bg-[#DD5E3F]  w-full h-[60px] rounded-[10px] text-center text-[16px] merriweather-regular  text-[#EDDFB5] '/>
+            <StyledDropzone />
+            <input type="email" name="" id="" placeholder='Your email' className='  w-full outline-none border-b-2 border-[#DD5E3F] pb-[10px]' />
+            <input type="email" name="" id="" placeholder='Email to' className='  w-full outline-none border-b-2 border-[#DD5E3F] pb-[10px]' />
+            <input type="text" name="" id="" placeholder='Title' className='  w-full outline-none border-b-2 border-[#DD5E3F] pb-[10px]' />
+            <input type="text" name="" id="" placeholder='Message' className='  w-full outline-none border-b-2 border-[#DD5E3F] pb-[10px]' />
+            <input type="submit" value="Transfer Files" className=' bg-[#DD5E3F]  w-full h-[60px] rounded-[10px] text-center text-[16px] merriweather-regular  text-[#EDDFB5] ' />
 
           </form>
 
-         
+
         </div>
       </div>
     </div>
