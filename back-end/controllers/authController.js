@@ -2,7 +2,8 @@ import User from '../models/User.js';
 import jwt from 'jsonwebtoken';
 
 export const signup = async (req, res) => {
-  const { username, password, profilePicture } = req.body;
+  const { username, password } = req.body;
+  const profilePicture = req.file ? req.file.filename : '';
 
   try {
     // Check if username already exists
@@ -15,11 +16,11 @@ export const signup = async (req, res) => {
     const newUser = new User({
       username,
       password,
-      profilePicture
+      profilePicture,
     });
 
     await newUser.save();
-    res.status(201).json({ message: 'User created successfully' });
+    res.status(201).json({ message: 'User created successfully', profilePicture });
 
   } catch (error) {
     res.status(500).json({ message: 'Server error', error });
