@@ -6,6 +6,7 @@ import Home from './Home'
 import { createBrowserRouter ,RouterProvider} from "react-router-dom"
 import { useAuth } from "./AuthContext";; //now added
 import { AuthProvider } from "./AuthContext";
+import AuthSuccess from './AuthSuccess'
 
 
 function App() {
@@ -24,6 +25,9 @@ function App() {
     {
       path : "/login",
       element : <> <Login/> </>
+    },{
+      path:"/auth-success",
+      element:<AuthSuccess />
     }]
    
   )
@@ -33,7 +37,7 @@ function App() {
 
     <>
      <AuthProvider>
-    <div className="bg-[#EFF2F0]">
+    <div className="">
         <RouterProvider router={router} />
     </div>
     </AuthProvider>

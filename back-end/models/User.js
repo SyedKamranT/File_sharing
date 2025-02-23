@@ -18,6 +18,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  googleId: { type: String, unique: true, sparse: true }, // Store Google ID
+  githubId: { type: String, unique: true, sparse: true }  // Store GitHub ID
 });
 
 UserSchema.pre('save', async function (next) {
