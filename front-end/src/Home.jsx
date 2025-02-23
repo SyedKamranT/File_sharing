@@ -72,7 +72,7 @@ function StyledDropzone(props) {
   ]);
 
   return (
-    <div className="container flex justify-between   w-[327px] ">
+    <div className="container flex justify-between outline-none   w-[327px] ">
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} className=' rounded-[30px]' />
         <div className=' flex justify-between items-center flex-row w-full  p-[10px]'>
@@ -94,7 +94,7 @@ const Home = () => {
 
 
   return (
-    <div className=" flex flex-col gap-20 bg-cover bg-center h-screen pt-10" style={{ backgroundImage: `url(${background})` }} >
+    <div className="md:max-lg:h-auto flex flex-col gap-20 bg-cover bg-center h-screen  pt-10" style={{ backgroundImage: `url(${background})` }} >
       {/* <img src={background} alt="background" className="w-full h-full object-cover" /> */}
       {/* Navbar */}
 
@@ -102,7 +102,7 @@ const Home = () => {
 
 
       {/* Content */}
-      <div className="flex flex-row items-center justify-between mx-[120px] ">
+      <div className="md:max-lg:flex-col md:max-lg:gap-10  flex flex-row items-center justify-between mx-[120px] ">
         <div className="flex flex-col gap-[15px]  ">
           <p className='text-[#EDDFB5] font-[400]  text-[64px] leading-[83px] tracking-[1px] merriweather-regular ' >Let's Wrap<br /> Up Your Files</p>
           <p className='text-[#EDDFB5] text-[24px] inter-medium font-[500] leading-[36px]  '>Drag. Drop. Done<br />Seamless file management at your fingertips!</p>

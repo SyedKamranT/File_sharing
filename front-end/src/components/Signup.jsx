@@ -18,6 +18,7 @@ import { useDropzone } from 'react-dropzone';
 
 
 
+
 const baseStyle = {
   flex: 1,
   display: 'flex',
@@ -99,6 +100,7 @@ const Signup = () => {
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
  const navigate = useNavigate();
+ const {signup} = useAuth()
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -115,14 +117,19 @@ const Signup = () => {
             },
         });
 
+
+       
       // Save token in localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("username", username);
 
+      
+
       setMessage(response.data.message);
      navigate("/")
       setError("");
-
+      
+signup(response.data.token)
       // Update authentication state
       setUsername("");
         setPassword("");
@@ -131,6 +138,9 @@ const Signup = () => {
       setError(err.response?.data?.message || "Signup failed. Please try again.");
       setMessage("");
     }
+  };
+  const handleOAuthLogin = (provider) => {
+    window.location.href = `http://localhost:5000/auth/${provider}`;
   };
 
     return (
@@ -161,9 +171,11 @@ const Signup = () => {
                    {/* right div */}
                   <div className='w-1/2 h-full flex flex-col items-center justify-evenly lg:p-20 max-md:w-full '>
                       <div className=' flex flex-col items-center justify-center gap-5 max-md:py-[30px] '>
+                      
                           <h1 className='text-[#000000] merriweather-regular font-[700] text-[32px] '>
                           Create Account
                           </h1>
+                          {error && <div className='text-red-500 text-sm'>{error}</div>}
                           <form onSubmit={handleSignup} className='flex flex-col items-center justify-center gap-5'>
                           <StyledDropzone profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
                               <input value={username} onChange={(e)=> setUsername(e.target.value)}
@@ -176,19 +188,21 @@ const Signup = () => {
                                   type="password"
                                   placeholder='Password'
                               />
+                              
                               <button className='max-lg:w-[300px] cursor-pointer bg-[#DD5E3F] w-[377px] h-[60px] rounded-md inter-medium text-[18px] text-white hover:bg-[#D85131]'>
                                   Create Account
                               </button>
+
                           </form>
       
                           <div className="max-lg:text-[12px] merriweather-regular text-center text-[#DD5E3F] "> ──────────────  Or  ──────────────
                           </div>
       
                           <div className="flex justify-center gap-4">
-                              <button className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
+                              <button onClick={() => handleOAuthLogin("google")} className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
                                   <img src={google} alt="google" />
                               </button>
-                              <button className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
+                              <button onClick={() => handleOAuthLogin("github")} className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
                                   <img src={github} alt="github" />
                               </button>
                           </div>

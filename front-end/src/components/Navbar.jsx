@@ -13,13 +13,7 @@ import axios from 'axios';
 
 const Navbar = () => {
   const { login, logout, isAuthenticated } = useAuth();
-  const { profilepic, setProfilepic } = useState()
-
-  useEffect(() => {
-
-
-
-  }, [])
+ 
 
 
   const navigate = useNavigate()
@@ -35,22 +29,20 @@ const Navbar = () => {
           {isAuthenticated ? 
           <div className='flex gap-[10px]'>
                   <UserProfile />
-                  <button onClick={() => { logout(); }} className="text-[#DD5E3F] text-[14px] w-[119px] inter-bold h-[50px] px-4 py-2 rounded-full border border-[#DD5E3F] cursor-pointer">
+                  <button onClick={() => { logout(); }} className="text-[#DD5E3F] text-[14px] w-[119px] inter-bold h-[50px] px-4 py-2 rounded-full border border-[#DD5E3F] cursor-pointer outline-none">
                     Logout
                   </button>
           </div> : 
           <div className='flex gap-[10px]'>
-          <button onClick={() => navigate('/login')} className="text-[#DD5E3F] text-[14px] w-[119px] inter-bold h-[50px] px-4 py-2 rounded-full border border-[#DD5E3F] cursor-pointer">
+          <button onClick={() => navigate('/login')} className="text-[#DD5E3F] text-[14px] w-[119px] inter-bold h-[50px] px-4 py-2 rounded-full border border-[#DD5E3F] cursor-pointer outline-none">
             Login
           </button>
-          <button onClick={()=>navigate('/signup')} className="text-[#EDDFB5] text-[14px] w-[119px] h-[50px] inter-bold  px-4 py-2 rounded-full border border-[#DD5E3F] cursor-pointer bg-[#DD5E3F]">
+          <button onClick={()=>navigate('/signup')} className="text-[#EDDFB5] text-[14px] w-[119px] h-[50px] inter-bold  px-4 py-2 rounded-full border border-[#DD5E3F] cursor-pointer bg-[#DD5E3F] outline-none">
             Signup
           </button>
           </div>
           }
-          {/* <button className="text-[#DD5E3F] text-[14px] w-[119px] inter-bold h-[50px] px-4 py-2 rounded-full border border-[#DD5E3F] cursor-pointer">
-            Login
-          </button> */}
+         
 
         </div>
       </nav>

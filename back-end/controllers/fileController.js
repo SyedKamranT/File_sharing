@@ -77,8 +77,10 @@ export const getProfilePicture = async (req, res) => {
       return res.status(404).json({ message: 'File not found' });
     }
 
+    res.set('Content-Type', file[0].contentType);
     gfs.openDownloadStreamByName(req.params.filename).pipe(res);
   } catch (error) {
+    console.error("Error fetching profile picture:", error);
     res.status(500).json({ message: 'Server error', error });
   }
 };
