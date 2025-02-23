@@ -41,7 +41,7 @@ export const signup = async (req, res) => {
 
 
   } catch (error) {
-    res.status(500).json({ message: 'Server error', error });
+    res.status(500).json({ message: '', error });
   }
 };
 
@@ -86,7 +86,7 @@ export const googleAuth = async (req, res) => {
   );
 
   res.redirect(`http://localhost:5173/auth-success?token=${token}`);
-  console.log(token)
+
 };
 
 export const githubAuth = async (req, res) => {
@@ -97,5 +97,5 @@ export const githubAuth = async (req, res) => {
   );
 
   res.redirect(`http://localhost:5173/auth-success?token=${token}`);
-  console.log(token)
+
 };

@@ -171,9 +171,11 @@ signup(response.data.token)
                    {/* right div */}
                   <div className='w-1/2 h-full flex flex-col items-center justify-evenly lg:p-20 max-md:w-full '>
                       <div className=' flex flex-col items-center justify-center gap-5 max-md:py-[30px] '>
+                      
                           <h1 className='text-[#000000] merriweather-regular font-[700] text-[32px] '>
                           Create Account
                           </h1>
+                          {error && <div className='text-red-500 text-sm'>{error}</div>}
                           <form onSubmit={handleSignup} className='flex flex-col items-center justify-center gap-5'>
                           <StyledDropzone profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
                               <input value={username} onChange={(e)=> setUsername(e.target.value)}
@@ -186,9 +188,11 @@ signup(response.data.token)
                                   type="password"
                                   placeholder='Password'
                               />
+                              
                               <button className='max-lg:w-[300px] cursor-pointer bg-[#DD5E3F] w-[377px] h-[60px] rounded-md inter-medium text-[18px] text-white hover:bg-[#D85131]'>
                                   Create Account
                               </button>
+
                           </form>
       
                           <div className="max-lg:text-[12px] merriweather-regular text-center text-[#DD5E3F] "> ──────────────  Or  ──────────────
