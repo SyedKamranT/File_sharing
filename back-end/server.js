@@ -9,13 +9,30 @@ import dotenv from 'dotenv';
 
 import authRoutes from './routes/authRoutes.js';
 import fileRoutes from './routes/fileRoutes.js';
-
+import userRoutes from './routes/userRoutes.js'
+//my changes
+import session from 'express-session';
+import passport from 'passport';
+import './config/passport.js'; // Import passport configuration ,,,,,, till here
 
 dotenv.config(); // Load .env variables
 
 const app = express();
 
-// Middleware
+//for github and google middlewares
+app.use(session({
+  secret: process.env.SESSION_SECRET || 'mysecret',
+  resave: false,
+  saveUninitialized: true
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+
+
+// Middleware  
+
 app.use(cors());
 app.use(express.json());
 
@@ -55,6 +72,7 @@ export { gfs, conn, upload };
 // Routes
 app.use('/auth', authRoutes);
 app.use('/files', fileRoutes); 
+app.use('/api',userRoutes)
 
 // Start server
 const PORT = process.env.PORT || 5000;

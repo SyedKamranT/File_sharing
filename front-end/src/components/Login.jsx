@@ -55,7 +55,10 @@ const Login = () => {
     };
   
 
-    
+    //for github and google login
+    const handleOAuthLogin = (provider) => {
+        window.location.href = `http://localhost:5000/auth/${provider}`;
+      };
 
     return (
         <div className='flex items-center justify-center m-0 p-0  h-screen max-md:flex-col'>
@@ -111,10 +114,10 @@ const Login = () => {
                     </div>
 
                     <div className="flex justify-center gap-4">
-                        <button className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
+                        <button onClick={() => handleOAuthLogin("google")} className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
                             <img src={google} alt="google" />
                         </button>
-                        <button className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
+                        <button onClick={() => handleOAuthLogin("github")} className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
                             <img src={github} alt="github" />
                         </button>
                     </div>

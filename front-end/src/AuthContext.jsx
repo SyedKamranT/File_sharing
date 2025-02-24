@@ -19,6 +19,10 @@ export const AuthProvider = ({ children }) => {
         setIsAuthenticated(true);
     };
 
+    const signup = (token)=>{
+        localStorage.setItem("token", token); // Store token
+        setIsAuthenticated(true);
+    }
     // ✅ Logout function
     const logout = () => {
         localStorage.removeItem("token"); // Remove token
@@ -26,7 +30,7 @@ export const AuthProvider = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, login, logout }}>
+        <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, login, logout,signup }}>
             {children}
         </AuthContext.Provider>
     );
