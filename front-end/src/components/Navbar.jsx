@@ -23,7 +23,7 @@ const Navbar = () => {
     <div className="flex justify-center items-start w-full ">
       <nav className="p-3 flex justify-between items-center bg-[#EDDFB5] w-[85%] md:max-xl:w-[100%] rounded-[107px] shadow-md mx-auto">
         <div>
-          <img src={window.innerWidth < 640 ? logoIcon : logoOrange} alt='logo' className="max-sm:w-fit max-sm:h-[48px] max-sm:pl-[10px] w-[220px] h-[33px] " />
+         <button onClick={() => navigate('/')}> <img src={window.innerWidth < 640 ? logoIcon : logoOrange} alt='logo' className="cursor-pointer border-none max-sm:w-fit max-sm:h-[48px] max-sm:pl-[10px] w-[220px] h-[33px] " /></button>
         </div>
 
         <div className="space-x-4">

@@ -14,6 +14,7 @@ import userRoutes from './routes/userRoutes.js'
 import session from 'express-session';
 import passport from 'passport';
 import './config/passport.js'; // Import passport configuration ,,,,,, till here
+import razorpayRoutes from "./routes/razorpayRoutes.js";
 
 dotenv.config(); // Load .env variables
 
@@ -73,6 +74,7 @@ export { gfs, conn, upload };
 app.use('/auth', authRoutes);
 app.use('/files', fileRoutes); 
 app.use('/api',userRoutes);
+app.use("/razorpay", razorpayRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;
