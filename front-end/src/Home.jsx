@@ -4,7 +4,9 @@ import Navbar from './components/Navbar.jsx';
 import { IoMdAdd } from 'react-icons/io';
 import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 import { useDropzone } from 'react-dropzone';
+
 
 const baseStyle = {
   flex: 1,
@@ -22,12 +24,12 @@ const baseStyle = {
   height: '60px',
 };
 
-const focusedStyle = { borderColor: '#2196f3' };
-const acceptStyle = { borderColor: '#00e676' };
+
 const rejectStyle = { borderColor: '#ff1744' };
 
-function StyledDropzone() {
-  const [fileName, setFileName] = useState(null);
+function StyledDropzone({setAcceptedFiles}) {
+  const [fileNames, setFileNames] = useState(null);
+  
   const {
     getRootProps,
     getInputProps,
@@ -36,10 +38,14 @@ function StyledDropzone() {
     isDragReject,
   } = useDropzone({
     multiple: true,
-    accept: { 'image/*': [] },
+   
     onDrop: (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
-        setFileName(acceptedFiles[0].name);
+       setFileNames(acceptedFiles[0].name)
+       
+        
+        setAcceptedFiles(acceptedFiles)
+        
       }
     },
   });
@@ -47,19 +53,19 @@ function StyledDropzone() {
   const style = useMemo(
     () => ({
       ...baseStyle,
-      ...(isFocused ? focusedStyle : {}),
-      ...(isDragAccept ? acceptStyle : {}),
+      
       ...(isDragReject ? rejectStyle : {}),
     }),
     [isFocused, isDragAccept, isDragReject]
   );
+ 
 
   return (
     <div className="container w-full ">
       <div {...getRootProps({ style })}>
         <input {...getInputProps()} className="rounded-[30px] w-full" />
         <div className="flex justify-between items-center w-full p-2">
-          <p className="text-[#DD5E3F] text-[16px] inter-bold">{fileName || 'Browse your files'}</p>
+          <p className="text-[#DD5E3F] text-[16px] w-[70%] whitespace-nowrap overflow-hidden overflow-ellipsis inter-bold">{fileNames || 'Browse your files'}</p>
           <button className="bg-[#DD5E3F] w-[69px] h-[40px] rounded-[25px] flex justify-center items-center">
             <IoMdAdd className="text-[20px] text-white" />
           </button>
@@ -71,6 +77,48 @@ function StyledDropzone() {
 
 const Home = () => {
   const navigate = useNavigate();
+  const [acceptedFiles, setAcceptedFiles] = useState([])
+  
+  const [yourEmail, setYourEmail] = useState("");
+  const [emailTo, setEmailTo] = useState("");
+  const [title, setTitle] = useState("");
+  const [message, setMessage] = useState("");
+
+  const handleTransfer = async (e) => {
+    e.preventDefault();
+    
+    if (!yourEmail || !emailTo || !title || !message || acceptedFiles.length === 0) {
+      alert("Please fill all fields and upload a file.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("yourEmail", yourEmail);
+    formData.append("emailTo", emailTo);
+    formData.append("title", title);
+    formData.append("message", message);
+    
+    acceptedFiles.forEach((files) => {
+      formData.append("files", files); // `file` is a File object
+    });
+
+    try {
+      const response = await axios.post("http://localhost:5000/files/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log("File uploaded successfully:", response.data);
+      alert("Files transferred successfully!");
+    } catch (error) {
+      console.error("Error uploading file:", error);
+      alert("Failed to transfer files.");
+    }
+  };
+
+
+  console.log(acceptedFiles)
 
   return (
     <div
@@ -94,30 +142,39 @@ const Home = () => {
             See Pricing
           </button>
         </div>
-        <div className=" max-w-md bg-[#EDDFB5] rounded-[16px] p-7.5 shadow-lg md:min-h-[462px] md:min-w-[387px] max-md:w-full">
-          <form className="flex flex-col h-full justify-between gap-[20px]">
-            <StyledDropzone />
+        <div className=" max-w-[387px] bg-[#EDDFB5] rounded-[16px] p-7.5 shadow-lg md:min-h-[462px] md:min-w-[387px] max-md:w-full">
+          <form onSubmit={handleTransfer} className="flex flex-col h-full justify-between gap-[20px]" >
+            <StyledDropzone setAcceptedFiles = {setAcceptedFiles} />
             <input
               type="email"
               placeholder="Your email"
               className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
+              value={yourEmail}
+              onChange={(e) => setYourEmail(e.target.value)}
             />
             <input
               type="email"
               placeholder="Email to"
               className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
+              value={emailTo}
+              onChange={(e) => setEmailTo(e.target.value)}
             />
             <input
               type="text"
               placeholder="Title"
               className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
             />
             <input
               type="text"
               placeholder="Message"
               className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
             />
             <input
+            
               type="submit"
               value="Transfer Files"
               className="bg-[#DD5E3F] w-full h-15 rounded-lg text-[#EDDFB5] text-lg font-semibold cursor-pointer merriweather-regular "

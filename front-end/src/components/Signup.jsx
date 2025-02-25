@@ -146,7 +146,7 @@ signup(response.data.token)
     return (
       <div className='flex items-center justify-center m-0 p-0  h-screen max-md:flex-col'>
                   {/* left div */}
-                  <div className="  bg-[#EDDFB5] w-1/2 h-full flex flex-col items-center justify-center  px-10 max-lg:px-10 py-10 max-md:w-full max-md:h-fit max-sm:bg-white  ">
+                  <div className="  bg-[#EDDFB5] w-1/2 h-full flex flex-col items-center justify-center  px-10 max-lg:px-10 py-10 max-md:w-full max-md:h-fit max-sm:bg-white  max-sm:mt-[100px]">
                       <div className=' flex items-center justify-center '>
                       <img className=" max-sm:w-[40%] md:max-lg:w-[80%]" src={logoOrange} alt="logo" />
                       </div>
