@@ -9,10 +9,14 @@ const storage = new GridFsStorage({
   file: (req, file) => {
     return {
       filename: `${Date.now()}-${file.originalname}`,
-      bucketName: 'uploads', // GridFS expects this to match the collection name
+      bucketName: 'uploads', // GridFS bucket name
       metadata: {
-        contentType: file.mimetype, // Include file type
-        originalname: file.originalname, // Optional: keep original file name
+        contentType: file.mimetype,
+        originalname: file.originalname,
+        yourEmail: req.body.yourEmail, // Extra fields
+        emailTo: req.body.emailTo,
+        title: req.body.title,
+        message: req.body.message
       },
     };
   },
