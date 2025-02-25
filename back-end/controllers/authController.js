@@ -85,7 +85,7 @@ export const googleAuth = async (req, res) => {
     { expiresIn: "7d" }
   );
 
-  res.redirect(`http://localhost:5173/auth-success?token=${token}`);
+  res.redirect(`https://flowfiles.onrender.com/auth-success?token=${token}`);
 
 };
 
@@ -96,6 +96,6 @@ export const githubAuth = async (req, res) => {
     { expiresIn: "7d" }
   );
 
-  res.redirect(`http://localhost:5173/auth-success?token=${token}`);
+  res.redirect(`https://flowfiles.onrender.com/auth-success?token=${token}`);
 
 };
