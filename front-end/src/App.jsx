@@ -7,6 +7,7 @@ import { createBrowserRouter ,RouterProvider} from "react-router-dom"
 import { useAuth } from "./AuthContext";; //now added
 import { AuthProvider } from "./AuthContext";
 import AuthSuccess from './AuthSuccess'
+import Pricing from './Pricing'
 
 
 function App() {
@@ -28,6 +29,9 @@ function App() {
     },{
       path:"/auth-success",
       element:<AuthSuccess />
+    },{
+      path:'/pricing',
+      element: <Pricing/>
     }]
    
   )
