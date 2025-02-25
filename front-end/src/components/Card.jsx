@@ -40,6 +40,8 @@ const Card = ({ title, desc, price, lists, planId }) => {
           handler: function (response) {
             alert("Payment Successful!");
             console.log(response);
+          
+           
           },
           prefill: {
             name: "User",
@@ -77,7 +79,7 @@ const Card = ({ title, desc, price, lists, planId }) => {
         </div>
         <button
           onClick={handleSubscribe}
-          className="merriweather-regular w-full mt-4 bg-[#DD5E3F] h-[48px] md:h-14 rounded-md text-white text-lg md:text-xl font-semibold hover:bg-[#D85131] transition-all duration-300"
+          className="merriweather-regular cursor-pointer w-full mt-4 bg-[#DD5E3F] h-[48px] md:h-14 rounded-md text-white text-lg md:text-xl font-semibold hover:bg-[#D85131] transition-all duration-300"
         >
           Subscribe
         </button>
