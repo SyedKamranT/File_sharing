@@ -85,7 +85,7 @@ export const googleAuth = async (req, res) => {
     { expiresIn: "7d" }
   );
 
-  res.redirect(`https://flowfiles.onrender.com/auth-success?token=${token}`);
+  res.redirect(`https://flowfiles.vercel.app//auth-success?token=${token}`);
 
 };
 
@@ -96,6 +96,6 @@ export const githubAuth = async (req, res) => {
     { expiresIn: "7d" }
   );
 
-  res.redirect(`https://flowfiles.onrender.com/auth-success?token=${token}`);
+  res.redirect(`https://flowfiles.vercel.app//auth-success?token=${token}`);
 
 };
