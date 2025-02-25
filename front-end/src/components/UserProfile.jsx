@@ -98,7 +98,7 @@ const UserProfile = () => {
                 }
             } else if (userId) {
                 // ✅ Normal login: Fetch profile from backend
-                fetch(`http://localhost:5000/api/user/${userId}`)
+                fetch(`https://flowfiles.onrender.com/api/user/${userId}`)
                     .then(response => response.json())
                     .then(data => {
                         console.log("Fetched user data from backend:", data);
@@ -109,7 +109,7 @@ const UserProfile = () => {
 
                             // ✅ Fix: Only prepend localhost if it's not already a full URL
                             if (!profileUrl.startsWith("http")) {
-                                profileUrl = `http://localhost:5000/files/profile/${profileUrl}`;
+                                profileUrl = `https://flowfiles.onrender.com/files/profile/${profileUrl}`;
                             }
 
                             console.log("Setting Normal Profile Picture:", profileUrl);
