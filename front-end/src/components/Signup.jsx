@@ -111,7 +111,7 @@ const Signup = () => {
     formData.append("profilePicture", profilePicture); 
 
     try {
-      const response = await axios.post("http://localhost:5000/auth/signup",formData, {
+      const response = await axios.post("https://flowfiles.onrender.com/auth/signup",formData, {
             headers: {
                 "Content-Type": "multipart/form-data", // Important for file upload
             },
@@ -140,7 +140,7 @@ signup(response.data.token)
     }
   };
   const handleOAuthLogin = (provider) => {
-    window.location.href = `http://localhost:5000/auth/${provider}`;
+    window.location.href = `https://flowfiles.onrender.com/auth/${provider}`;
   };
 
     return (

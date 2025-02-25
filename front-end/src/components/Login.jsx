@@ -29,7 +29,7 @@ const Login = () => {
       e.preventDefault();
   
       try {
-        const response = await axios.post("http://localhost:5000/auth/login", {
+        const response = await axios.post("https://flowfiles.onrender.com/auth/login", {
           username,
           password,
          
@@ -57,7 +57,7 @@ const Login = () => {
 
     //for github and google login
     const handleOAuthLogin = (provider) => {
-        window.location.href = `http://localhost:5000/auth/${provider}`;
+        window.location.href = `https://flowfiles.onrender.com/auth/${provider}`;
       };
 
     return (
