@@ -15,8 +15,8 @@ export const uploadFiles = async (req, res) => {
       return res.status(400).json({ message: 'No files uploaded' });
     }
 
-    // Construct download link
-    const downloadLinks = req.files.map(file => `${process.env.BASE_URL}/files/download/${file.filename}`);
+    const backendUrl = 'https://flowfiles.onrender.com';
+    const downloadLinks = `${backendUrl}/files/download/${filename}`;
 
     // Send email to recipient
     await sendEmail(emailTo, yourEmail, title, message, downloadLinks);
