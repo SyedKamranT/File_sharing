@@ -66,9 +66,9 @@ function StyledDropzone({setAcceptedFiles}) {
         <input {...getInputProps()} className="rounded-[30px] w-full" />
         <div className="flex justify-between items-center w-full p-2">
           <p className="text-[#DD5E3F] text-[16px] w-[70%] whitespace-nowrap overflow-hidden overflow-ellipsis inter-bold">{fileNames || 'Browse your files'}</p>
-          <button className="bg-[#DD5E3F] w-[69px] h-[40px] rounded-[25px] flex justify-center items-center">
+          <div className="bg-[#DD5E3F] w-[69px] h-[40px] rounded-[25px] flex justify-center items-center">
             <IoMdAdd className="text-[20px] text-white" />
-          </button>
+          </div>
         </div>
       </div>
     </div>
