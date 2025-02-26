@@ -24,7 +24,7 @@ const Card = ({ title, desc, price, lists, planId }) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:5000/razorpay/subscribe", {
+      const response = await axios.post("https://flowfiles.onrender.com/razorpay/subscribe", {
         planId: planId,
         userId: user,
       });
