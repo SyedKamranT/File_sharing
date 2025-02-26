@@ -3,7 +3,9 @@ import upload from '../models/Upload.js';
 import mongoose from 'mongoose';
 import express from 'express';
 import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
 
+dotenv.config();
 // Upload File
 export const uploadFiles = async (req, res) => {
   try {
