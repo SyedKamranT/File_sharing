@@ -14,6 +14,7 @@ import userRoutes from './routes/userRoutes.js'
 import session from 'express-session';
 import passport from 'passport';
 import './config/passport.js'; // Import passport configuration ,,,,,, till here
+import razorpayRoutes from "./routes/razorpayRoutes.js";
 
 dotenv.config(); // Load .env variables
 
@@ -37,7 +38,7 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB connection
-mongoose.connect(process.env.MONGODB_URI || 'mongodb+srv://filesharing:sharingfileX546234@filesharing0.k0w9x.mongodb.net/file_sharing', {
+mongoose.connect(process.env.MONGO_URI || 'mongoDB+srv://filesharing:sharingfileX546234@filesharing0.k0w9x.mongodb.net/file_sharing', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'))
@@ -72,7 +73,8 @@ export { gfs, conn, upload };
 // Routes
 app.use('/auth', authRoutes);
 app.use('/files', fileRoutes); 
-app.use('/api',userRoutes)
+app.use('/api',userRoutes);
+app.use("/razorpay", razorpayRoutes);
 
 // Start server
 const PORT = process.env.PORT || 5000;

@@ -2,17 +2,65 @@ import { gfs, conn } from '../server.js';
 import upload from '../models/Upload.js';
 import mongoose from 'mongoose';
 import express from 'express';
+import nodemailer from 'nodemailer';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 // Upload File
-export const uploadFiles = (req, res) => {
+export const uploadFiles = async (req, res) => {
   try {
-      if (!req.files || req.files.length === 0) {
-          return res.status(400).json({ message: 'No files uploaded' });
-      }
-      res.status(200).json({ message: 'Files uploaded successfully', files: req.files });
+    const { yourEmail, emailTo, title, message } = req.body;
+
+    if (!req.files || req.files.length === 0) {
+      return res.status(400).json({ message: 'No files uploaded' });
+    }
+
+    const backendUrl = 'https://flowfiles.onrender.com';
+    const downloadLinks = req.files.map(file => `${backendUrl}/files/download/${file.filename}`);
+
+    // Send email to recipient
+    await sendEmail(emailTo, yourEmail, title, message, downloadLinks);
+    console.log("Email Credentials:", process.env.EMAIL_USER, process.env.EMAIL_PASS);
+
+    res.status(200).json({
+      message: 'Files uploaded successfully and email sent!',
+      files: req.files,
+      downloadLinks,
+    });
+
   } catch (error) {
-      res.status(500).json({ message: 'Server error', error });
+    console.error('Upload error:', error);
+    res.status(500).json({ message: 'Server error', error });
   }
+};
+
+// Function to send email
+const sendEmail = async (emailTo, yourEmail, title, message, downloadLinks) => {
+  const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+  });
+
+  const mailOptions = {
+    from: `"${yourEmail}" <${process.env.EMAIL_USER}>`,
+    to: emailTo,
+    subject: `File Shared: ${title}`,
+    html: `
+      <h3>${yourEmail} has shared files with you!</h3>
+      <p><strong>Title:</strong> ${title}</p>
+      <p><strong>Message:</strong> ${message}</p>
+      <p><strong>Download Links:</strong></p>
+      <ul>
+        ${downloadLinks.map(link => `<li><a href="${link}">${link}</a></li>`).join('')}
+      </ul>
+    `,
+  };
+
+  await transporter.sendMail(mailOptions);
 };
 
 

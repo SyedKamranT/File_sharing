@@ -1,50 +1,25 @@
-import { useState } from 'react'
-
-import Signup from './components/Signup'
-import Login from './components/Login'
-import Home from './Home'
-import { createBrowserRouter ,RouterProvider} from "react-router-dom"
-import { useAuth } from "./AuthContext";; //now added
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Signup from './components/Signup';
+import Login from './components/Login';
+import Home from './Home';
 import { AuthProvider } from "./AuthContext";
-import AuthSuccess from './AuthSuccess'
-
+import AuthSuccess from './AuthSuccess';
+import Pricing from './Pricing';
 
 function App() {
-
-
-  const router = createBrowserRouter(
-    [
-    {
-      path: "/",
-      element : <> <Home/> </>
-    },
-    {
-      path: "/signup",
-      element : <> <Signup/> </>
-    },
-    {
-      path : "/login",
-      element : <> <Login/> </>
-    },{
-      path:"/auth-success",
-      element:<AuthSuccess />
-    }]
-   
-  )
-  
-
   return (
-
-    <>
-     <AuthProvider>
-    <div className="">
-        <RouterProvider router={router} />
-    </div>
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/auth-success" element={<AuthSuccess />} />
+          <Route path="/pricing" element={<Pricing />} />
+        </Routes>
+      </BrowserRouter>
     </AuthProvider>
-   
-
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

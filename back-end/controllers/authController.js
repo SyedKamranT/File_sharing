@@ -79,23 +79,29 @@ export const login = async (req, res) => {
 // ggogle and github auths here
 
 export const googleAuth = async (req, res) => {
+  if (!req.user) {
+      return res.redirect("https://flowfiles.vercel.app/auth-failure");
+  }
+
   const token = jwt.sign(
-    { userId: req.user._id, username: req.user.username, profilePicture: req.user.profilePicture },
-    process.env.JWT_SECRET,
-    { expiresIn: "7d" }
+      { userId: req.user._id, username: req.user.username, profilePicture: req.user.profilePicture },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" }
   );
 
-  res.redirect(`http://localhost:5173/auth-success?token=${token}`);
-
+  res.redirect(`https://flowfiles.vercel.app/auth-success?token=${token}`);
 };
 
 export const githubAuth = async (req, res) => {
-  const token = jwt.sign(
+  if (!req.user) {
+    return res.redirect("https://flowfiles.vercel.app/auth-failure");
+}
+
+const token = jwt.sign(
     { userId: req.user._id, username: req.user.username, profilePicture: req.user.profilePicture },
     process.env.JWT_SECRET,
     { expiresIn: "7d" }
-  );
+);
 
-  res.redirect(`http://localhost:5173/auth-success?token=${token}`);
-
+res.redirect(`https://flowfiles.vercel.app/auth-success?token=${token}`);
 };
