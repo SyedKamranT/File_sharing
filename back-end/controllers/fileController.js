@@ -6,6 +6,7 @@ import nodemailer from 'nodemailer';
 import dotenv from 'dotenv';
 
 dotenv.config();
+
 // Upload File
 export const uploadFiles = async (req, res) => {
   try {
@@ -16,12 +17,11 @@ export const uploadFiles = async (req, res) => {
     }
 
     const backendUrl = 'https://flowfiles.onrender.com';
-    const downloadLinks = `${backendUrl}/files/download/${filename}`;
+    const downloadLinks = req.files.map(file => `${backendUrl}/files/download/${file.filename}`);
 
     // Send email to recipient
     await sendEmail(emailTo, yourEmail, title, message, downloadLinks);
     console.log("Email Credentials:", process.env.EMAIL_USER, process.env.EMAIL_PASS);
-
 
     res.status(200).json({
       message: 'Files uploaded successfully and email sent!',
