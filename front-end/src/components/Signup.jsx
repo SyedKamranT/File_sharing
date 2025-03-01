@@ -14,7 +14,7 @@ import {useNavigate} from 'react-router-dom'
 
 //here we have the dropzone to upload profile picture
 import { useDropzone } from 'react-dropzone';
-
+import {SyncLoader} from 'react-spinners'
 
 
 
@@ -99,6 +99,7 @@ const Signup = () => {
   const [profilePicture ,setProfilePicture] = useState("");
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
+  const [loading,setLoading] = useState(false)
  const navigate = useNavigate();
  const {signup} = useAuth()
 
@@ -109,24 +110,28 @@ const Signup = () => {
     formData.append("username", username);
     formData.append("password", password);
     formData.append("profilePicture", profilePicture); 
-
+    setLoading(true)
     try {
+      
       const response = await axios.post("https://flowfiles.onrender.com/auth/signup",formData, {
             headers: {
                 "Content-Type": "multipart/form-data", // Important for file upload
             },
-        });
+      });
 
 
-       
-      // Save token in localStorage
+        
+          
+        
+    // Save token in localStorage
       localStorage.setItem("token", response.data.token);
       localStorage.setItem("username", username);
 
-      
+
 
       setMessage(response.data.message);
      navigate("/")
+     setLoading(false)
       setError("");
       
 signup(response.data.token)
@@ -134,88 +139,95 @@ signup(response.data.token)
       setUsername("");
         setPassword("");
         setProfilePicture(null);
+        
     } catch (err) {
       setError(err.response?.data?.message || "Signup failed. Please try again.");
       setMessage("");
     }
+    
   };
   const handleOAuthLogin = (provider) => {
     window.location.href = `https://flowfiles.onrender.com/auth/${provider}`;
+   
+   
   };
 
     return (
-      <div className='flex items-center justify-center m-0 p-0  h-screen max-md:flex-col'>
-                  {/* left div */}
-                  <div className="  bg-[#EDDFB5] w-1/2 h-full flex flex-col items-center justify-center  px-10 max-lg:px-10 py-10 max-md:w-full max-md:h-fit max-sm:bg-white  max-sm:mt-[100px]">
-                      <div className=' flex items-center justify-center '>
-                      <img className=" max-sm:w-[40%] md:max-lg:w-[80%]" src={logoOrange} alt="logo" />
-                      </div>
-                      <div className='w-[480px] max-sm:hidden max-lg:w-[80%] lg:max-xl:w-[90%] h-fit mt-[50px] mb-[30px] object-cover max-md:mt-[30px] max-md:mb-[18px]'>
-                          <img src={vector} alt="illustrator" className="" />
-                      </div>
-                      <div className=''>
-                          <h1 className='text-black max-lg:text-3xl md:max-lg:text-2xl merriweather-regular  font-bold text-4xl text-center max-sm:text-[#DD5E3F] max-sm:text-[22px] max-sm:mt-5'>
-                              Your Files, Your Way <br />
-                              Anytime, Anywhere
-                          </h1>
-                      </div>
-                      <div className=' max-sm:hidden'>
-                          <p className='max-lg:mt-[16px] max-lg:text-[12px]  text-black inter-thin tracking-[1px] mt-[20px] text-center text-md'>
-                              "FlowFiles is your ultimate file-sharing and syncing solution, <br />
-                              designed for speed and simplicity."
-                          </p>
-                      </div>
-                  </div>
-                  <div className='md:hidden  text-black/20'> ──────────── </div>
-      
-                   {/* right div */}
-                  <div className='w-1/2 h-full flex flex-col items-center justify-evenly lg:p-20 max-md:w-full '>
-                      <div className=' flex flex-col items-center justify-center gap-5 max-md:py-[30px] '>
-                      
-                          <h1 className='text-[#000000] merriweather-regular font-[700] text-[32px] '>
-                          Create Account
-                          </h1>
-                          {error && <div className='text-red-500 text-sm'>{error}</div>}
-                          <form onSubmit={handleSignup} className='flex flex-col items-center justify-center gap-5'>
-                          <StyledDropzone profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
-                              <input value={username} onChange={(e)=> setUsername(e.target.value)}
-                                  className=' max-lg:w-[300px] border-none inter-regular bg-[#EDDFB5] rounded-md w-[377px] h-[60px]  placeholder:pl-[24px] placeholder:text-left focus:outline-none focus:ring-0 text-center'
-                                  type="text"
-                                  placeholder='Username'
-                              />
-                              <input value={password} onChange={(e)=> setPassword(e.target.value)}
-                                  className=' max-lg:w-[300px] inter-regular bg-[#EDDFB5] rounded-md w-[377px] h-[60px] placeholder:pl-[24px] placeholder:text-left focus:outline-none focus:ring-0 text-center'
-                                  type="password"
-                                  placeholder='Password'
-                              />
-                              
-                              <button className='max-lg:w-[300px] cursor-pointer bg-[#DD5E3F] w-[377px] h-[60px] rounded-md inter-medium text-[18px] text-white hover:bg-[#D85131]'>
-                                  Create Account
-                              </button>
+      <>
+      {loading ?<div className=' flex justify-center items-center h-[100vh]'> <SyncLoader speedMultiplier ="0.7"  color='#DD5E3F'/> </div>: <div className='flex items-center justify-center m-0 p-0  h-screen max-md:flex-col'>
+        {/* left div */}
+        <div className="  bg-[#EDDFB5] w-1/2 h-full flex flex-col items-center justify-center  px-10 max-lg:px-10 py-10 max-md:w-full max-md:h-fit max-sm:bg-white  max-sm:mt-[100px]">
+            <div className=' flex items-center justify-center '>
+            <img className=" max-sm:w-[40%] md:max-lg:w-[80%]" src={logoOrange} alt="logo" />
+            </div>
+            <div className='w-[480px] max-sm:hidden max-lg:w-[80%] lg:max-xl:w-[90%] h-fit mt-[50px] mb-[30px] object-cover max-md:mt-[30px] max-md:mb-[18px]'>
+                <img src={vector} alt="illustrator" className="" />
+            </div>
+            <div className=''>
+                <h1 className='text-black max-lg:text-3xl md:max-lg:text-2xl merriweather-regular  font-bold text-4xl text-center max-sm:text-[#DD5E3F] max-sm:text-[22px] max-sm:mt-5'>
+                    Your Files, Your Way <br />
+                    Anytime, Anywhere
+                </h1>
+            </div>
+            <div className=' max-sm:hidden'>
+                <p className='max-lg:mt-[16px] max-lg:text-[12px]  text-black inter-thin tracking-[1px] mt-[20px] text-center text-md'>
+                    "FlowFiles is your ultimate file-sharing and syncing solution, <br />
+                    designed for speed and simplicity."
+                </p>
+            </div>
+        </div>
+        <div className='md:hidden  text-black/20'> ──────────── </div>
 
-                          </form>
-      
-                          <div className="max-lg:text-[12px] merriweather-regular text-center text-[#DD5E3F] "> ──────────────  Or  ──────────────
-                          </div>
-      
-                          <div className="flex justify-center gap-4">
-                              <button onClick={() => handleOAuthLogin("google")} className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
-                                  <img src={google} alt="google" />
-                              </button>
-                              <button onClick={() => handleOAuthLogin("github")} className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
-                                  <img src={github} alt="github" />
-                              </button>
-                          </div>
-      
-                          <div className='max-lg:text-[14px] merriweather-medium text-[18px] '>
-                              Already have an account? <a className='text-[#DD5E3F] underline' href='/login' >SignIn</a>
-                          </div>
-                      </div>
-                  </div>
-      
-              </div>
+         {/* right div */}
+        <div className='w-1/2 h-full flex flex-col items-center justify-evenly lg:p-20 max-md:w-full '>
+            <div className=' flex flex-col items-center justify-center gap-5 max-md:py-[30px] '>
+            
+                <h1 className='text-[#000000] merriweather-regular font-[700] text-[32px] '>
+                Create Account
+                </h1>
+                {error && <div className='text-red-500 text-sm'>{error}</div>}
+                <form onSubmit={handleSignup} className='flex flex-col items-center justify-center gap-5'>
+                <StyledDropzone profilePicture={profilePicture} setProfilePicture={setProfilePicture} />
+                    <input value={username} onChange={(e)=> setUsername(e.target.value)}
+                        className=' max-lg:w-[300px] border-none inter-regular bg-[#EDDFB5] rounded-md w-[377px] h-[60px]  placeholder:pl-[24px] placeholder:text-left focus:outline-none focus:ring-0 text-center'
+                        type="text"
+                        placeholder='Username'
+                    />
+                    <input value={password} onChange={(e)=> setPassword(e.target.value)}
+                        className=' max-lg:w-[300px] inter-regular bg-[#EDDFB5] rounded-md w-[377px] h-[60px] placeholder:pl-[24px] placeholder:text-left focus:outline-none focus:ring-0 text-center'
+                        type="password"
+                        placeholder='Password'
+                    />
+                    
+                    <button className='max-lg:w-[300px] cursor-pointer bg-[#DD5E3F] w-[377px] h-[60px] rounded-md inter-medium text-[18px] text-white hover:bg-[#D85131]'>
+                        Create Account
+                    </button>
 
-    )
+                </form>
+
+                <div className="max-lg:text-[12px] merriweather-regular text-center text-[#DD5E3F] "> ──────────────  Or  ──────────────
+                </div>
+
+                <div className="flex justify-center gap-4">
+                    <button onClick={() => handleOAuthLogin("google")} className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
+                        <img src={google} alt="google" />
+                    </button>
+                    <button onClick={() => handleOAuthLogin("github")} className='cursor-pointer bg-[#DD5E3F] w-[60px] h-[60px] rounded-md flex justify-center items-center hover:bg-[#D85131]'>
+                        <img src={github} alt="github" />
+                    </button>
+                </div>
+
+                <div className='max-lg:text-[14px] merriweather-medium text-[18px] '>
+                    Already have an account? <a className='text-[#DD5E3F] underline' href='/login' >SignIn</a>
+                </div>
+            </div>
+        </div>
+
+    </div>}
+    </>
+      
+
+      )
 }
 
 export default Signup
