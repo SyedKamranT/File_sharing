@@ -6,6 +6,7 @@ import { useState, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from "axios";
 import { useDropzone } from 'react-dropzone';
+import {SyncLoader} from 'react-spinners'
 
 
 const baseStyle = {
@@ -78,7 +79,7 @@ function StyledDropzone({setAcceptedFiles}) {
 const Home = () => {
   const navigate = useNavigate();
   const [acceptedFiles, setAcceptedFiles] = useState([])
-  
+  const [loading,setLoading] = useState(false)
   const [yourEmail, setYourEmail] = useState("");
   const [emailTo, setEmailTo] = useState("");
   const [title, setTitle] = useState("");
@@ -101,6 +102,8 @@ const Home = () => {
     acceptedFiles.forEach((files) => {
       formData.append("files", files); // `file` is a File object
     });
+    
+    setLoading(true)
 
     try {
       const response = await axios.post("https://flowfiles.onrender.com/files/upload", formData, {
@@ -115,73 +118,81 @@ const Home = () => {
       console.error("Error uploading file:", error);
       alert("Failed to transfer files.");
     }
+    setLoading(false)
   };
 
 
   console.log(acceptedFiles)
 
   return (
+    
     <div
-      className="min-h-screen flex flex-col gap-20 bg-cover bg-center px-4 md:px-10 pt-10"
+      className="min-h-screen  bg-cover bg-center px-4 md:px-10 pt-10 pb-10"
       style={{ backgroundImage: `url(${background})` }}
     >
+      <div className='flex flex-col gap-20  '>
       <Navbar />
+     
 
-      <div className="flex flex-col md:flex-row items-center justify-between gap-10 md:max-lg:gap-14   lg:gap-20 lg:max-xl:mx-[80px] xl:mx-[100px] ">
-        <div className="text-center md:text-left  ">
-          <p className="text-[#EDDFB5] text-5xl leading-[65px]  xl:text-[64px] lg:max-xl:text-[45px]  lg:max-xl:leading-[70px] font-bold  merriweather-regular lg:leading-[83px] ">
-            Let's Wrap Up <br />Your Files
-          </p>
-          <p className="text-[#EDDFB5] text-lg md:text-xl mt-4 inter-medium">
-            Drag. Drop. Done<br />Seamless file management at your fingertips!
-          </p>
-          <button
-            onClick={() => navigate('/pricing')}
-            className="mt-12 bg-[#EDDFB5] w-48 h-15 rounded-lg text-[#D85131] text-lg font-semibold merriweather-bold "
-          >
-            See Pricing
-          </button>
-        </div>
-        <div className=" max-w-[387px] bg-[#EDDFB5] rounded-[16px] p-7.5 shadow-lg md:min-h-[462px] md:min-w-[387px] max-md:w-full">
+     <div className=" flex flex-col md:flex-row items-center justify-between gap-10 md:max-lg:gap-14 lg:w-[83%] lg:mx-auto  lg:gap-20  ">
+       <div className="text-center md:text-left  ">
+         <p className="text-[#EDDFB5] text-5xl leading-[65px]  xl:text-[64px] lg:max-xl:text-[45px]  lg:max-xl:leading-[70px] font-bold  merriweather-regular lg:leading-[83px] ">
+           Let's Wrap Up <br />Your Files
+         </p>
+         <p className="text-[#EDDFB5] text-lg md:text-xl mt-4 inter-medium">
+           Drag. Drop. Done<br />Seamless file management at your fingertips!
+         </p>
+         <button
+           onClick={() => navigate('/pricing')}
+           className="mt-12 bg-[#EDDFB5] w-48 h-15 rounded-lg text-[#D85131] text-lg font-semibold merriweather-bold "
+         >
+           See Pricing
+         </button>
+       </div>
+       <div className=" max-w-[387px] bg-[#EDDFB5] rounded-[16px] p-7.5 shadow-lg md:min-h-[462px] md:min-w-[387px] max-md:w-full">
+          {loading ?<div className=' flex justify-center flex-col items-center h-[50vh]'><div><SyncLoader speedMultiplier ="0.7" color='#DD5E3F'/></div><div>Transfering...</div>  </div>:
           <form onSubmit={handleTransfer} className="flex flex-col h-full justify-between gap-[20px]" >
-            <StyledDropzone setAcceptedFiles = {setAcceptedFiles} />
-            <input
-              type="email"
-              placeholder="Your email"
-              className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
-              value={yourEmail}
-              onChange={(e) => setYourEmail(e.target.value)}
-            />
-            <input
-              type="email"
-              placeholder="Email to"
-              className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
-              value={emailTo}
-              onChange={(e) => setEmailTo(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Title"
-              className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
-              value={title}
-              onChange={(e) => setTitle(e.target.value)}
-            />
-            <input
-              type="text"
-              placeholder="Message"
-              className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-            />
-            <input
-            
-              type="submit"
-              value="Transfer Files"
-              className="bg-[#DD5E3F] w-full h-15 rounded-lg text-[#EDDFB5] text-lg font-semibold cursor-pointer merriweather-regular "
-            />
-          </form>
-        </div>
+           <StyledDropzone setAcceptedFiles = {setAcceptedFiles} />
+           <input
+             type="email"
+             placeholder="Your email"
+             className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
+             value={yourEmail}
+             onChange={(e) => setYourEmail(e.target.value)}
+           />
+           <input
+             type="email"
+             placeholder="Email to"
+             className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
+             value={emailTo}
+             onChange={(e) => setEmailTo(e.target.value)}
+           />
+           <input
+             type="text"
+             placeholder="Title"
+             className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
+             value={title}
+             onChange={(e) => setTitle(e.target.value)}
+           />
+           <input
+             type="text"
+             placeholder="Message"
+             className="w-full border-b-2 border-[#DD5E3F] p-2 outline-none inter-regular"
+             value={message}
+             onChange={(e) => setMessage(e.target.value)}
+           />
+           <input
+           
+             type="submit"
+             value="Transfer Files"
+             className="bg-[#DD5E3F] w-full h-15 rounded-lg text-[#EDDFB5] text-lg font-semibold cursor-pointer merriweather-regular "
+           />
+         </form>}
+         
+       </div>
+     </div>
       </div>
+     
     </div>
   );
 };
