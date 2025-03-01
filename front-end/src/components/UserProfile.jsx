@@ -65,10 +65,11 @@
 
 import { useEffect, useState } from "react";
 import { jwtDecode } from "jwt-decode";
+import defaultuser from '../assets/user.png'
 
 const UserProfile = () => {
     const [user, setUser] = useState(null);
-    const [profilePic, setProfilePic] = useState("https://art.pixilart.com/ab3d6dd6fe5046f.png");
+    const [profilePic, setProfilePic] = useState(defaultuser);
 
     useEffect(() => {
         const token = localStorage.getItem("token");

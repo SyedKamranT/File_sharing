@@ -10,6 +10,7 @@ import google from '../assets/google.svg';
 import github from '../assets/github.svg';
 
 import {useNavigate} from 'react-router-dom'
+import {SyncLoader} from 'react-spinners'
 
 
 
@@ -19,6 +20,7 @@ const Login = () => {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
+     const [loading,setLoading] = useState(false)
   
     const { login } = useAuth(); // Using login function from AuthContext
 
@@ -26,34 +28,33 @@ const Login = () => {
     
   
     const handleLogin = async (e) => {
-      e.preventDefault();
-  
-      try {
-        const response = await axios.post("https://flowfiles.onrender.com/auth/login", {
-          username,
-          password,
-         
-         
-        });
-  
-        localStorage.setItem("token", response.data.token);
-        localStorage.setItem("username", username);
-  
-        setMessage("Login successful!");
-        setError("");
-  
-        // Call login function from AuthContext
-        login(response.data.token);
-        console.log("Nvaigation is running")
-  
-        // Navigate to home page
-        navigate("/");
-      } catch (err) {
-        setError("Invalid username or password");
-        setMessage("");
-      }
-    };
-  
+        e.preventDefault();
+        setLoading(true);
+      
+        try {
+          const response = await axios.post("https://flowfiles.onrender.com/auth/login", {
+            username,
+            password,
+          });
+      
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("username", username);
+      
+          setMessage("Login successful!");
+          setError("");
+      
+          login(response.data.token);
+          navigate("/");
+      
+        } catch (err) {
+          setError("Invalid username or password");
+          setMessage("");
+        } finally {
+          setLoading(false);  // ✅ Move this inside finally
+        }
+      };
+      
+      
 
     //for github and google login
     const handleOAuthLogin = (provider) => {
@@ -61,7 +62,7 @@ const Login = () => {
       };
 
     return (
-        <div className='flex items-center justify-center m-0 p-0  h-screen max-md:flex-col'>
+        <> {loading ?<div className=' flex justify-center items-center h-[100vh]'> <SyncLoader speedMultiplier ="0.7"  color='#DD5E3F'/> </div>: <div className='flex items-center justify-center m-0 p-0  h-screen max-md:flex-col'>
             {/* left div */}
             <div className="  bg-[#DD5E3F] w-1/2 h-full flex flex-col items-center justify-center  px-10 max-lg:px-10 py-10 max-md:w-full max-md:h-fit max-sm:bg-white  ">
                 <div className=' flex items-center justify-center '>
@@ -128,7 +129,8 @@ const Login = () => {
                 </div>
             </div>
 
-        </div>
+        </div>} </>
+       
     );
 }
 
